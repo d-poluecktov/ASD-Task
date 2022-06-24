@@ -122,5 +122,27 @@ public class TariffsList {
         return  stringBuilder.toString();
     }
 
+    public double getCallPrice(int prefix, double seconds) throws Exception {
+        boolean hasPrefix = false;
+        double price = 0;
+        for(Tariff tariff: tariffList) {
+            if(tariff.code == prefix) {
+                hasPrefix = true;
+                if(tariff.price > price) {
+                    price = tariff.price;
+                }
+            }
+        }
+        if(hasPrefix) {
+            if(seconds <= 6) {
+                return 0;
+            } else {
+                return  price*(Math.ceil(seconds/60));
+            }
+        } else {
+            throw new Exception("Префикс не найден");
+        }
+    }
+
 
 }

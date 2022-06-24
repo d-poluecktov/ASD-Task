@@ -1,9 +1,6 @@
 package ru.vsu.cs.poluecktov.task_1;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
+
 import util.JTableUtils;
 import util.SwingUtils;
 
@@ -12,9 +9,11 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,6 +32,10 @@ public class FrameMain extends JFrame {
     private JSpinner spinnerIndexes;
     private JTextField textFieldNewValue;
     private JComboBox comboBoxParams;
+    private JButton getPriceButton;
+    private JTextField numberTextField;
+    private JTextField textFieldSeconds;
+    private JTextField textFieldResultPrice;
 
 
     private JFileChooser fileChooserOpen;
@@ -86,9 +89,13 @@ public class FrameMain extends JFrame {
         menuLookAndFeel.setText("Вид");
         menuBarMain.add(menuLookAndFeel);
         SwingUtils.initLookAndFeelMenu(menuLookAndFeel);
-        comboBoxParams.addItem(new String("Направление"));
-        comboBoxParams.addItem(new String("Префикс"));
-        comboBoxParams.addItem(new String("Цена"));
+
+        comboBoxParams.addItem("Направление");
+        comboBoxParams.addItem("Префикс");
+        comboBoxParams.addItem("Цена");
+
+        textFieldResultPrice.setEditable(true);
+
 
         this.pack();
 
@@ -98,18 +105,26 @@ public class FrameMain extends JFrame {
         buttonLoadInputFromFile.addActionListener(actionEvent -> {
             try {
                 if (fileChooserOpen.showOpenDialog(panelMain) == JFileChooser.APPROVE_OPTION) {
-                    String file = fileChooserOpen.getSelectedFile().getPath();
-                    CSVParser csvParser = new CSVParserBuilder().withSeparator(',').build();
-                    CSVReader reader = new com.opencsv.CSVReaderBuilder(new FileReader(file)).withCSVParser(csvParser).withSkipLines(1).build();
-                    List<String[]> rows = reader.readAll();
+                    String path = fileChooserOpen.getSelectedFile().getPath();
+                    File file = new File(path);
+                    FileReader fileReader = new FileReader(file);
+                    BufferedReader reader = new BufferedReader(fileReader);
+                    String line = reader.readLine();
+                    List<String> rows = new ArrayList<>();
+                    while(line != null) {
+                        rows.add(line);
+                        line = reader.readLine();
+                    }
                     String[][] arr = new String[rows.size()][4];
                     int i = 0;
-                    for (String[] row: rows) {
+                    for (String string: rows) {
+                        String[] row = string.split(",");
                         arr[i][0] = row[0];
                         arr[i][1] = row[1];
                         arr[i][2] = row[2];
                         arr[i][3] = row[3];
                         i++;
+                        tariffsList.addTariff(row[1], Integer.parseInt(row[2]), Double.parseDouble(row[3]));
                     }
                     JTableUtils.writeArrayToJTable(tableInput, arr);
 
@@ -126,7 +141,9 @@ public class FrameMain extends JFrame {
                     if (!file.toLowerCase().endsWith(".csv")) {
                         file += ".csv";
                     }
-                    CSVWriter writer = new CSVWriter(new FileWriter(file));
+                    com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(new FileWriter(file), ',', com.opencsv.CSVWriter.NO_QUOTE_CHARACTER,
+                            com.opencsv.CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                            com.opencsv.CSVWriter.DEFAULT_LINE_END);
                     for(int i = 0; i < matrix.length; i++) {
                         writer.writeNext(matrix[i]);
                     }
@@ -187,6 +204,31 @@ public class FrameMain extends JFrame {
                     inner.showInfo(tariffsList);
                 } else {
                     SwingUtils.showInfoMessageBox("Тарифа с таким номером нет");
+                }
+            }
+        });
+        getPriceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String phoneNumber = numberTextField.getText();
+                for(int i = 0; i < phoneNumber.length(); i++) {
+                    char ch = phoneNumber.charAt(i);
+                    if(!Character.isDigit(ch)) {
+                        phoneNumber = phoneNumber.replace(Character.toString(ch), "");
+                        i--;
+                    }
+                }
+                String prefix = phoneNumber.substring(1,4);
+                int seconds = Integer.parseInt(textFieldSeconds.getText());
+                if(seconds < 0) {
+                    SwingUtils.showInfoMessageBox("Неверное время разговора");
+                } else {
+                    try {
+                        double resultPrice = tariffsList.getCallPrice(Integer.parseInt(prefix), seconds);
+                        textFieldResultPrice.setText(Double.toString(resultPrice));
+                    } catch (Exception exception) {
+                        SwingUtils.showInfoMessageBox("Тарифа с таким префиксом не найдено");
+                    }
                 }
             }
         });
