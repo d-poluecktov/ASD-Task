@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/task_5/lib/jdom-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/jfreesvg-3.4-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/asm-commons-3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/forms_rt-7.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/forms-1.1-preview.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/jfreesvg-3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/asm-3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_5/lib/asm-tree-3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

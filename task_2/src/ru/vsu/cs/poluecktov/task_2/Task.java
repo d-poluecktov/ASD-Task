@@ -22,7 +22,7 @@ public class Task {
             if(isPrime(list.get(i)) && list.get(i) > 0) {
                 if(list.get(i-1) != 0) {
                     list.addBefore(i, 0);
-                    list.addAfter(i-1, 0);
+                    list.addAfter(i+1, 0);
                     i+=2;
                 } else {
                     list.addAfter(i, 0);
