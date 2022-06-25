@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="forms_rt-7.0.3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/task_7/lib/forms_rt-7.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_7/lib/forms_rt-7.0.3.jar!/com" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

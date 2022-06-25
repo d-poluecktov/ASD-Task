@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.w3c.dom.svg-1.1.0.v201011041433">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/task_7/lib/org.w3c.dom.svg-1.1.0.v201011041433.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_7/lib/org.w3c.dom.svg-1.1.0.v201011041433.jar!/org" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

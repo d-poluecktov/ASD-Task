@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="batik-gvt-1.6-1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/task_7/lib/batik-gvt-1.6-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/task_7/lib/batik-gvt-1.6-1.jar!/org" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
